@@ -1,0 +1,40 @@
+{
+  "name": "wallhaven-client",
+  "version": "0.0.0",
+  "description": "Wallhaven Client",
+  "keywords": [
+    "wallhaven",
+    "wallhaven.cc"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/simov/wallhaven-client",
+  "author": "Simeon Velichkov <simeonvelichkov@gmail.com> (https://simov.github.io)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simov/wallhaven-client.git"
+  },
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "request-compose": "0.0.18"
+  },
+  "devDependencies": {
+    "request-logs": "0.0.5"
+  },
+  "bin": {
+    "wallhaven-client": "./bin/cli.js"
+  },
+  "main": "./index.js",
+  "files": [
+    "bin/",
+    "config/",
+    "lib/",
+    "index.js",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {},
+  "engines": {
+    "node": ">=8.0.0"
+  }
+}

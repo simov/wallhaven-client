@@ -1,0 +1,19 @@
+{
+  "search": [
+    "q",
+    "categories",
+    "purity",
+    "resolutions",
+    "atleast",
+    "ratios",
+    "colors",
+    "sorting",
+    "topRange",
+    "order",
+    "page"
+  ],
+  "download": [
+    "size",
+    "location"
+  ]
+}
