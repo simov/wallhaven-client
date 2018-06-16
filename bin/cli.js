@@ -35,7 +35,7 @@ var options = Object.keys(argv)
 
 ;(async () => {
   try {
-    var wallpapers = await wh.search(params)
+    var {total, tags, pages, wallpapers} = await wh.search(params)
 
     wallpapers.forEach(({id, purity, category, resolution, favorites}) => {
       console.log(
@@ -47,6 +47,14 @@ var options = Object.keys(argv)
       console.log('full', wh.url.full({id, ext: 'jpg'}))
       console.log('-----------------------------------')
     })
+    console.log('tags')
+    tags.forEach(({id, name, purity}) => {
+      console.log('id', id, 'name', name, 'purity', purity)
+      console.log('page', wh.url(`tag/${id}`))
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    })
+    console.log('total', total)
+    console.log('pages', pages)
 
     if (/thumb|full/.test(argv.size)) {
       await wh.download({

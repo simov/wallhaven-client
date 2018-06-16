@@ -4,7 +4,7 @@ var wh = require('../')
 ;(async () => {
   try {
     // https://alpha.wallhaven.cc/search?q=cyberpunk&purity=100&sorting=views
-    var wallpapers = await wh.search({
+    var {wallpapers} = await wh.search({
       q: 'cyberpunk',
       purity: '100',
       sorting: 'views',

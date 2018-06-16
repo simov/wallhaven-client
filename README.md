@@ -73,7 +73,7 @@ var wh = require('wallhaven-client')
 
 ;(async () => {
   try {
-    var wallpapers = await wh.search({
+    var {wallpapers} = await wh.search({
       categories: '001',
       purity: '100',
       resolutions: '1920x1080',

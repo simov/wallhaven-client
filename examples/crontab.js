@@ -17,8 +17,9 @@ var random = (min, max) =>
 
 ;(async () => {
   try {
-    var wallpapers = await wh.search({
+    var {wallpapers} = await wh.search({
       q: 'steampunk',
+      categories: '100',
       purity: '100',
       atleast: '1920x1080',
       sorting: 'random',

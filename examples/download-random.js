@@ -7,7 +7,7 @@ var random = (min, max) =>
 ;(async () => {
   try {
     // https://alpha.wallhaven.cc/search?purity=100&atleast=1920x1080&sorting=random
-    var wallpapers = await wh.search({
+    var {wallpapers} = await wh.search({
       purity: '100',
       atleast: '1920x1080',
       sorting: 'random',

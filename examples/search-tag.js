@@ -4,7 +4,7 @@ var wh = require('../')
 ;(async () => {
   try {
     // https://alpha.wallhaven.cc/search?q=id%3A853&purity=100&rations=16x9%2C16x10&sorting=relevance
-    var wallpapers = await wh.search({
+    var {wallpapers} = await wh.search({
       q: 'id:853', // #fantasy art
       purity: '100',
       rations: '16x9,16x10',
