@@ -3,15 +3,104 @@
 
 [![npm-version]][npm]
 
-# toc
+> [wallhaven.cc] HTTP Client
 
-  - [search](#search)
-  - [cli](#cli)
-  - [api](#api)
-  - [examples](#examples)
-  - [crontab](#crontab)
+# Table of Contents
 
-# search
+  - **[API](#api)**
+  - **[Arguments](#arguments)**
+    - [search](#search) / [wallpaper](#wallpaper) / [image](#image)
+  - **[Examples](#examples)**
+
+# API
+
+Name      | Arguments     | Returns    | Description
+:---      | :---          | :---       | :---
+search    | `{q, categories, purity, resolutions, atleast, ratios, colors, sorting, topRange, order, page, agent}` | `{Object}`  | Filter wallpapers
+wallpaper | `{id, agent}`        | `{Object}` | Get full meta data about wallpaper
+image     | `{id, size, ext, location, agent}` | writes to file | Download single image
+
+<details>
+<summary><strong>search</strong></summary>
+
+```js
+{
+  count: 24,
+  total: 144,
+  pages: 6,
+  tags: [ { id: '874', name: 'steampunk', purity: 'sfw' } ],
+  wallpapers: [
+    { id: '102569',
+      purity: 'sfw',
+      category: 'general',
+      resolution: '1920x1080',
+      favorites: 243,
+      urls:
+       { page: 'https://alpha.wallhaven.cc/wallpaper/102569',
+         thumb: 'https://alpha.wallhaven.cc/wallpapers/thumb/small/th-102569.jpg',
+         full: 'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-102569.jpg',
+         short: 'https://whvn.cc/102569' } },
+    { id: '1182',
+      purity: 'sfw',
+      category: 'general',
+      resolution: '2560x1600',
+      favorites: 123,
+      urls:
+       { page: 'https://alpha.wallhaven.cc/wallpaper/1182',
+         thumb: 'https://alpha.wallhaven.cc/wallpapers/thumb/small/th-1182.jpg',
+         full: 'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-1182.jpg',
+         short: 'https://whvn.cc/1182' } }
+  ]
+}
+```
+
+</details>
+
+<details>
+<summary><strong>wallpaper</strong></summary>
+
+```js
+{
+  id: '651423',
+  resolution: '2000 x 1285',
+  ratio: undefined,
+  category: 'Anime',
+  purity: 'sfw',
+  size: '5.1 MiB',
+  views: '700',
+  favorites: '6',
+  tags:
+   [ { id: '1', name: 'anime', purity: 'sfw' },
+     { id: '45595', name: 'Macross Delta', purity: 'sfw' },
+     { id: '54814', name: 'Kaname Buccaneer', purity: 'sfw' },
+     { id: '45559', name: 'Mikumo Guynemer', purity: 'sfw' },
+     { id: '74518', name: 'Makina Nakajima', purity: 'sfw' },
+     { id: '49846', name: 'Freyja Wion', purity: 'sfw' },
+     { id: '74689', name: 'Reina Prowler', purity: 'sfw' },
+     { id: '5063', name: 'Macross', purity: 'sfw' } ],
+  colors: [ 'abbcda', 'cccccc', 'ffffff', '66cccc', '999999' ],
+  source: 'https://www.pixiv.net/member_illust.php?mode=medium&amp;illust_id=65239432',
+  uploader:
+   { username: 'AksumkA',
+     avatar: 'https://static.wallhaven.cc/images/user/avatar/32/2_82aff6c49745ac98ef5dda356aabed354de0f398c783ef8e9d4d8b734c283074.png',
+     group: 'owner',
+     profile: 'https://alpha.wallhaven.cc/user/AksumkA' },
+  date: '2018-05-06T21:11:47+00:00',
+  urls:
+   { page: 'https://alpha.wallhaven.cc/wallpaper/651423',
+     thumb: 'https://alpha.wallhaven.cc/wallpapers/thumb/small/th-651423.jpg',
+     full: 'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-651423.png',
+     short: 'https://whvn.cc/651423' },
+  ext: 'png'
+}
+```
+
+</details>
+
+
+# Arguments
+
+## search
 
 Parameter   | Value
 :-          | :-
@@ -26,6 +115,7 @@ sorting     | `relevance`, `random`, `date_added`, `views`, `favorites`, `toplis
 topRange    | `1d`, `3d`, `1w`, `1M`, `3M`, `6M`, `1y`, only available for `sorting=toplist`
 order       | `desc`, `asc`
 page        | any number
+agent | [HTTPS Agent][https-agent] to use (defaults to undefined)
 
 ---
 
@@ -36,106 +126,43 @@ purity            | none | sfw     | sketchy | nsfw   | all
 
 > _+ any combination_
 
-# cli
+---
+
+> Note that currently there is no information on the search page about the actual file extension of the wallpaper. The `urls.full` key will always point to an image with `.jpg` file extension. The [image](#image) download API however will retry to download the image with `.png` file extension if it fails with `.jpg`.
+
+> The search returns up to 24 wallpapers.
+
+---
+
+## wallpaper
+
+Parameter   | Value
+:-          | :-
+id | Wallpaper ID
+agent | [HTTPS Agent][https-agent] to use (defaults to undefined)
+
+
+---
+
+## image
+
+Parameter   | Value
+:-          | :-
+id | Wallpaper ID
+size | `'thumb'` or `'full'` (defaults to thumb)
+ext | `'jpg'` or `'png'` (defaults to jpg)
+location | Download location (defaults to [process.cwd][process-cwd])
+agent | [HTTPS Agent][https-agent] to use (defaults to undefined)
+
+
+# Examples
+
+> [search][example-search] / [wallpaper][example-wallpaper] / [image][example-image]
 
 ```bash
-# install globally
-npm i -g wallhaven-client
-# all available options
-wallhaven-client --help
-# print meta data (empty search)
-wallhaven-client
-# print meta data (specific search)
-wallhaven-client --q "cyberpunk" --resolutions "1920x1080" --sorting "views"
-```
-
-Add `--size` and `--location` to enable image download:
-
-```bash
-# download thumbnails (empty search)
-wallhaven-client --size thumb --location /path/to/thumbnails
-# download wallpapers (empty search)
-wallhaven-client --size full --location /path/to/wallpapers
-# download wallpapers (specific search)
-wallhaven-client \
-  --q "steampunk" \
-  --purity "100" \
-  --atleast "1920x1080" \
-  --sorting "favorites" \
-  --size full \
-  --location /path/to/wallpapers
-```
-
-# api
-
-```js
-var wh = require('wallhaven-client')
-
-;(async () => {
-  try {
-    var {wallpapers} = await wh.search({
-      categories: '001',
-      purity: '100',
-      resolutions: '1920x1080',
-      sorting: 'date_added',
-    })
-    await wh.download({
-      wallpapers,
-      size: 'full',
-      location: '/path/to/location'
-    })
-    console.log('DONE!')
-  }
-  catch (err) {
-    console.error(err)
-  }
-})()
-```
-
-> https://alpha.wallhaven.cc/search?categories=001&purity=100&resolutions=1920x1080&sorting=date_added
-
-# examples
-
-Example |
-:- |
-[Print wallpaper meta][print-wallpaper-meta] |
-[Download wallpaper thumbnails][download-thumb] |
-[Download full sized wallpaper images][download-full] |
-[Download only the top 5 wallpapers][download-top-5] |
-[Download random wallpaper][download-random] |
-[Search by tag][search-tag] |
-[Set background wallpaper in Gnome][crontab] |
-
-# crontab
-
-The following command can be used to set the background wallpaper in Gnome:
-
-```
-gsettings set org.gnome.desktop.background picture-uri /path/to/image.jpg
-```
-
-The implementation may look like this:
-
-> [Set background wallpaper in Gnome][crontab]
-
-Call the above node script through the following bash script:
-
-```bash
-#!/bin/bash
-
-PID=$(pgrep -n gnome-session)
-export DBUS_SESSION_BUS_ADDRESS=$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/$PID/environ|cut -d= -f2-)
-GSETTINGS_BACKEND=dconf
-
-/path/to/node /path/to/wallhaven-client/examples/crontab.js /path/to/download/location
-
-```
-
-Lastly run the above bash script periodically with crontab:
-
-```bash
-# run on every 5 minutes
-*/5 * * * * /path/to/script.sh
+node examples/search.js [example index]
+node examples/wallpaper.js [example index]
+node examples/image.js [example index]
 ```
 
 
@@ -149,10 +176,11 @@ Lastly run the above bash script periodically with crontab:
   [coveralls]: https://coveralls.io/github/simov/wallhaven-client
   [codecov]: https://codecov.io/github/simov/wallhaven-client?branch=master
 
-  [print-wallpaper-meta]: https://github.com/simov/wallhaven-client/blob/master/examples/print-wallpaper-meta.js
-  [download-thumb]: https://github.com/simov/wallhaven-client/blob/master/examples/download-thumb.js
-  [download-full]: https://github.com/simov/wallhaven-client/blob/master/examples/download-full.js
-  [download-top-5]: https://github.com/simov/wallhaven-client/blob/master/examples/download-top-5.js
-  [download-random]: https://github.com/simov/wallhaven-client/blob/master/examples/download-random.js
-  [search-tag]: https://github.com/simov/wallhaven-client/blob/master/examples/search-tag.js
-  [crontab]: https://github.com/simov/wallhaven-client/blob/master/examples/crontab.js
+  [wallhaven.cc]: https://alpha.wallhaven.cc
+
+  [process-cwd]: https://nodejs.org/dist/latest-v10.x/docs/api/process.html#process_process_cwd
+  [https-agent]: https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_new_agent_options
+
+  [example-search]: https://github.com/simov/wallhaven-client/blob/master/examples/search.js
+  [example-wallpaper]: https://github.com/simov/wallhaven-client/blob/master/examples/wallpaper.js
+  [example-image]: https://github.com/simov/wallhaven-client/blob/master/examples/image.js

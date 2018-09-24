@@ -1,10 +1,12 @@
 {
   "name": "wallhaven-client",
   "version": "0.0.2",
-  "description": "Wallhaven Client",
+  "description": "wallhaven.cc HTTP Client",
   "keywords": [
     "wallhaven",
-    "wallhaven.cc"
+    "wallhaven.cc",
+    "http",
+    "client"
   ],
   "license": "MIT",
   "homepage": "https://github.com/simov/wallhaven-client",
@@ -14,21 +16,16 @@
     "url": "https://github.com/simov/wallhaven-client.git"
   },
   "dependencies": {
-    "minimist": "^1.2.0",
-    "request-compose": "0.0.18"
+    "request-compose": "^1.0.0"
   },
   "devDependencies": {
     "request-logs": "0.0.5"
   },
-  "bin": {
-    "wallhaven-client": "./bin/cli.js"
-  },
-  "main": "./index.js",
+  "bin": {},
+  "main": "./client.js",
   "files": [
-    "bin/",
-    "config/",
-    "lib/",
-    "index.js",
+    "format/",
+    "client.js",
     "LICENSE",
     "README.md",
     "package.json"
