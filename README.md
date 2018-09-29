@@ -20,6 +20,16 @@ search    | `{q, categories, purity, resolutions, atleast, ratios, colors, sorti
 wallpaper | `{id, ...options}`        | `{Object}` | Get full meta data about wallpaper
 image     | `{id, size, ext, location, ...options}` | writes to file | Download single image
 
+```js
+var wh = require('wallhaven-client')
+
+;(async () => {
+  var {count, total, pages, tags, wallpapers} = await wh.search({q: 'steampunk'})
+  var meta = await wh.wallpaper({id: '527712'})
+  await wh.image({id: '527712'})
+})()
+```
+
 <details>
 <summary><strong>search</strong></summary>
 
