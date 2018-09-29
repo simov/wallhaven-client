@@ -78,7 +78,25 @@ var wh = require('../')
       rations: '16x9,16x10',
       sorting: 'relevance',
     })
+    console.log(wallpapers)
     console.log('query:', 'https://alpha.wallhaven.cc/search?q=id%3A853&purity=100&rations=16x9%2C16x10&sorting=relevance')
+    console.log('count:', count)
+    console.log('total:', total)
+    console.log('pages:', pages)
+    console.log('tags:', tags)
+  },
+
+  // set request-compose options
+  5: async () => {
+    var {count, total, pages, tags, wallpapers} = await wh.search({
+      q: 'cyberpunk',
+      purity: '100',
+      sorting: 'views',
+      headers: {'user-agent': 'wallhaven-client'},
+      timeout: 10000,
+    })
+    console.log(wallpapers)
+    console.log('query:', 'https://alpha.wallhaven.cc/search?q=cyberpunk&purity=100&sorting=views')
     console.log('count:', count)
     console.log('total:', total)
     console.log('pages:', pages)

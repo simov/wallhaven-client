@@ -19,8 +19,18 @@ var wh = require('../')
     await wh.image({id: '527712', size: 'full', ext: 'png'})
   },
 
-  // download random wallpaper
+  // retry downloading jpg wallpaper as png
+  // + set request-compose options
   3: async () => {
+    await wh.image({
+      id: '527712', size: 'full', ext: 'jpg',
+      headers: {'user-agent': 'wallhaven-client'},
+      timeout: 10000,
+    })
+  },
+
+  // download random wallpaper
+  4: async () => {
     var random = (min, max) => Math.floor(Math.random() * (max - min)) + min
 
     var params = {
@@ -43,7 +53,7 @@ var wh = require('../')
   },
 
   // download the top 5 wallpapers from the last week
-  4: async () => {
+  5: async () => {
     // get the top list
     var {wallpapers} = await wh.search({
       purity: '100',

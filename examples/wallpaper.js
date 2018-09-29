@@ -16,4 +16,14 @@ var wh = require('../')
     console.log(meta)
   },
 
+  // set request-compose options
+  2: async () => {
+    var meta = await wh.wallpaper({
+      id: '527712',
+      headers: {'user-agent': 'wallhaven-client'},
+      timeout: 10000,
+    })
+    console.log(meta)
+  },
+
 }[key]()))(process.argv[2])
