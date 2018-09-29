@@ -3,7 +3,7 @@
 
 [![npm-version]][npm]
 
-> [wallhaven.cc] HTTP Client
+> _[wallhaven.cc] HTTP Client_
 
 # Table of Contents
 
@@ -16,9 +16,9 @@
 
 Name      | Arguments     | Returns    | Description
 :---      | :---          | :---       | :---
-search    | `{q, categories, purity, resolutions, atleast, ratios, colors, sorting, topRange, order, page, agent}` | `{Object}`  | Filter wallpapers
-wallpaper | `{id, agent}`        | `{Object}` | Get full meta data about wallpaper
-image     | `{id, size, ext, location, agent}` | writes to file | Download single image
+search    | `{q, categories, purity, resolutions, atleast, ratios, colors, sorting, topRange, order, page, ...options}` | `{Object}`  | Filter wallpapers
+wallpaper | `{id, ...options}`        | `{Object}` | Get full meta data about wallpaper
+image     | `{id, size, ext, location, ...options}` | writes to file | Download single image
 
 <details>
 <summary><strong>search</strong></summary>
@@ -110,12 +110,12 @@ purity      | see below
 resolutions | `1920x1080` or `1920x1080,1920x1200`
 atleast     | `1920x1080`
 ratios      | `16x9` or `16x9,16x10`
-colors      | `#660000`, `#990000`, `#cc0000`, `#cc3333`, `#ea4c88`, `#993399`, `#663399`, `#333399`, `#0066cc`, `#0099cc`, `#66cccc`, `#77cc33`, `#669900`, `#336600`, `#666600`, `#999900`, `#cccc33`, `#ffff00`, `#ffcc33`, `#ff9900`, `#ff6600`, `#cc6633`, `#996633`, `#663300`, `#000000`, `#999999`, `#cccccc`, `#ffffff`, `#424153`, without `#`
+colors      | `660000`, `990000`, `cc0000`, `cc3333`, `ea4c88`, `993399`, `663399`, `333399`, `0066cc`, `0099cc`, `66cccc`, `77cc33`, `669900`, `336600`, `666600`, `999900`, `cccc33`, `ffff00`, `ffcc33`, `ff9900`, `ff6600`, `cc6633`, `996633`, `663300`, `000000`, `999999`, `cccccc`, `ffffff`, `424153`
 sorting     | `relevance`, `random`, `date_added`, `views`, `favorites`, `toplist`
 topRange    | `1d`, `3d`, `1w`, `1M`, `3M`, `6M`, `1y`, only available for `sorting=toplist`
 order       | `desc`, `asc`
 page        | any number
-agent | [HTTPS Agent][https-agent] to use (defaults to undefined)
+...options  | `agent, timeout` (any [request-compose][compose-client-options] option)
 
 ---
 
@@ -136,23 +136,23 @@ purity            | none | sfw     | sketchy | nsfw   | all
 
 ## wallpaper
 
-Parameter   | Value
-:-          | :-
-id | Wallpaper ID
-agent | [HTTPS Agent][https-agent] to use (defaults to undefined)
+Parameter  | Value
+:-         | :-
+id         | Wallpaper ID
+...options | `agent, timeout` (any [request-compose][compose-client-options] option)
 
 
 ---
 
 ## image
 
-Parameter   | Value
-:-          | :-
-id | Wallpaper ID
-size | `'thumb'` or `'full'` (defaults to thumb)
-ext | `'jpg'` or `'png'` (defaults to jpg)
-location | Download location (defaults to [process.cwd][process-cwd])
-agent | [HTTPS Agent][https-agent] to use (defaults to undefined)
+Parameter  | Value
+:-         | :-
+id         | Wallpaper ID
+size       | `'thumb'` or `'full'` (defaults to thumb)
+ext        | `'jpg'` or `'png'` (defaults to jpg)
+location   | Download location (defaults to [process.cwd][process-cwd])
+...options | `agent, timeout` (any [request-compose][compose-client-options] option)
 
 
 # Examples
@@ -179,7 +179,7 @@ node examples/image.js [example index]
   [wallhaven.cc]: https://alpha.wallhaven.cc
 
   [process-cwd]: https://nodejs.org/dist/latest-v10.x/docs/api/process.html#process_process_cwd
-  [https-agent]: https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_new_agent_options
+  [compose-client-options]: https://github.com/simov/request-compose#options
 
   [example-search]: https://github.com/simov/wallhaven-client/blob/master/examples/search.js
   [example-wallpaper]: https://github.com/simov/wallhaven-client/blob/master/examples/wallpaper.js
