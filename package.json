@@ -16,7 +16,7 @@
     "url": "https://github.com/simov/wallhaven-client.git"
   },
   "dependencies": {
-    "request-compose": "^1.0.0"
+    "request-compose": "^1.1.0"
   },
   "devDependencies": {
     "request-logs": "0.0.5"
