@@ -7,6 +7,7 @@ var path = require('path')
 var format = {
   search: require('./format/search'),
   wallpaper: require('./format/wallpaper'),
+  favorites: require('./format/favorites'),
   url: require('./format/url'),
 }
 
@@ -52,5 +53,28 @@ module.exports = {
         options, {id, size, ext: 'png', location}))
       : Promise.reject(err)
     ),
+
+  login: ({user, pass, ...options}) =>
+    compose(
+      _ => compose.client(Object.assign({}, options, {
+        method: 'POST',
+        url: 'https://alpha.wallhaven.cc/auth/login',
+        form: {
+          username: user,
+          password: pass,
+        }
+      })),
+      ({res}) => res.headers['set-cookie'].join('; ')
+    )(),
+
+  favorites: ({id='', page, cookie, ...options}) =>
+    compose(
+      _ => compose.client(Object.assign({}, options, {
+        url: `https://alpha.wallhaven.cc/favorites/${id}`,
+        qs: {page},
+        headers: {cookie},
+      })),
+      ({body}) => format.favorites(body)
+    )(),
 
 }

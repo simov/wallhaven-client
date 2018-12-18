@@ -9,7 +9,7 @@
 
   - **[API](#api)**
   - **[Arguments](#arguments)**
-    - [search](#search) / [wallpaper](#wallpaper) / [image](#image)
+    - [search](#search) / [wallpaper](#wallpaper) / [image](#image) / [login](#login) / [favorites](#favorites)
   - **[Examples](#examples)**
 
 # API
@@ -19,6 +19,8 @@ Name      | Arguments     | Returns    | Description
 search    | `{q, categories, purity, resolutions, atleast, ratios, colors, sorting, topRange, order, page, ...options}` | `{Object}`  | Filter wallpapers
 wallpaper | `{id, ...options}`        | `{Object}` | Get full meta data about wallpaper
 image     | `{id, size, ext, location, ...options}` | writes to file | Download single image
+login     | `{user, pass, ...options}` | cookie string | Login to Wallhaven
+favorites | `{id, page, cookie, ...options}` | `{Object}` | Get meta data about user's collections and the wallpapers in them
 
 ```js
 var wh = require('wallhaven-client')
@@ -27,6 +29,8 @@ var wh = require('wallhaven-client')
   var {count, total, pages, tags, wallpapers} = await wh.search({q: 'steampunk'})
   var meta = await wh.wallpaper({id: '527712'})
   await wh.image({id: '527712'})
+  var cookie = await wh.login({user, pass})
+  var {collections, wallpapers, pages} = await wh.favorites({cookie})
 })()
 ```
 
@@ -107,6 +111,32 @@ var wh = require('wallhaven-client')
 
 </details>
 
+<details>
+<summary><strong>favorites</strong></summary>
+
+```js
+{
+  collections: [
+    { id: '121373', name: 'Default', private: true, total: 40 },
+    { id: '308194', name: 'Science', public: true, total: 9 } ],
+  wallpapers: [
+    { id: '703709',
+      purity: 'sfw',
+      category: 'general',
+      resolution: '3353x1588',
+      favorites: 129,
+      urls:
+       { page: 'https://alpha.wallhaven.cc/wallpaper/703709',
+         thumb: 'https://alpha.wallhaven.cc/wallpapers/thumb/small/th-703709.jpg',
+         full: 'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-703709.jpg',
+         short: 'https://whvn.cc/703709' } }
+  ],
+  pages: 2
+}
+```
+
+</details>
+
 
 # Arguments
 
@@ -114,7 +144,7 @@ var wh = require('wallhaven-client')
 
 Parameter   | Value
 :-          | :-
-q           | any search term, or tag id `id:853`
+q           | any search term, or tag id `id:853`, `@username`, `type:{png/jpg/jpeg}`
 categories  | see below
 purity      | see below
 resolutions | `1920x1080` or `1920x1080,1920x1200`
@@ -164,15 +194,37 @@ ext        | `'jpg'` or `'png'` (defaults to jpg)
 location   | Download location (defaults to [process.cwd][process-cwd])
 ...options | `agent, timeout` (any [request-compose][compose-client-options] option)
 
+---
+
+## login
+
+Parameter  | Value
+:-         | :-
+user       | Username
+pass       | Password
+...options | `agent, timeout` (any [request-compose][compose-client-options] option)
+
+---
+
+## favorites
+
+Parameter  | Value
+:-         | :-
+id         | Collection ID
+page       | any number
+cookie     | Session cookie
+...options | `agent, timeout` (any [request-compose][compose-client-options] option)
+
 
 # Examples
 
-> [search][example-search] / [wallpaper][example-wallpaper] / [image][example-image]
+> [search][example-search] / [wallpaper][example-wallpaper] / [image][example-image] / [favorites][example-favorites]
 
 ```bash
 node examples/search.js [example index]
 node examples/wallpaper.js [example index]
 node examples/image.js [example index]
+node examples/favorites.js [example index]
 ```
 
 
@@ -194,3 +246,4 @@ node examples/image.js [example index]
   [example-search]: https://github.com/simov/wallhaven-client/blob/master/examples/search.js
   [example-wallpaper]: https://github.com/simov/wallhaven-client/blob/master/examples/wallpaper.js
   [example-image]: https://github.com/simov/wallhaven-client/blob/master/examples/image.js
+  [example-favorites]: https://github.com/simov/wallhaven-client/blob/master/examples/favorites.js
